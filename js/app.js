@@ -1,3 +1,5 @@
+// Whole-script strict mode syntax
+"use strict";
 let timerValueInSeconds = 0;
 let timerHolder;
 let rating;
@@ -21,6 +23,7 @@ let timerCounter = document.querySelector('.timerValue');
 let openCards = [];
 let moveCounter = document.querySelector('.moves');
 let restartIcon = document.querySelector('.restart');
+let incorrectMovesCount = 0;
 
 restartIcon.addEventListener('click', function () {
     initGame();
@@ -44,11 +47,6 @@ function reduceRating() {
     if (rating < 1) {
         rating = 1;
     }
-    starsRatingToDisplay.innerHTML = generateRatingHTML(rating);
-}
-
-function increaseRating() {
-    rating++;
     starsRatingToDisplay.innerHTML = generateRatingHTML(rating);
 }
 
@@ -83,9 +81,11 @@ function compareCards(cards) {
         cards.forEach(function (card) {
             card.classList.add('match');
         })
-        increaseRating();
-    } else {
-        reduceRating();
+    } else {//if there are two mistakes in a row - reduce rating
+        incorrectMovesCount++;
+        if (incorrectMovesCount%2 == 0){
+            reduceRating();
+        }
     }
     setTimeout(function () {//if cards don't match - close them
         cards.forEach(function (card) {
@@ -116,10 +116,11 @@ function startTimer() {
 
 function initGame() {
     createCards();
-    setRating(5);
+    setRating(10);
     setMoves(0);
     timerCounter.innerText = 0;
     clicks = 0;
+    incorrectMovesCount = 0;
     openCards = [];
     let allCards = document.querySelectorAll('.card');
     allCards.forEach(function (card) {
