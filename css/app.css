@@ -129,12 +129,13 @@ h1 {
 
 /* Modal Content */
 .modal-content {
+    text-align: center;
     position: relative;
     background-color: #fefefe;
     margin: auto;
     padding: 0;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -190,10 +191,27 @@ h1 {
     padding: 2px 16px;
 }
 
-#playAgainBtn {
+.play-again-button {
     font-size: 24px;
     font-weight: bold;
     padding: 2px 16px;
     background-color: #5cb85c;
     color: white;
+}
+
+@media screen and (max-width: 640px) {
+    .deck {
+        width: 100vw;
+        min-height: 100vw;
+    }
+
+    .deck .card {
+        height: 20vw;
+        width: 20vw;
+    }
+
+    .score-panel {
+        width: 100vw;
+        padding: 10px;
+    }
 }

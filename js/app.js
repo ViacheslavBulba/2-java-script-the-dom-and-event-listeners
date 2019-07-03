@@ -1,3 +1,15 @@
+/*jshint esversion: 6 */
+
+/*JavaScript code for memory game with cards
+The following logic is implemented:
+* Turn over any two cards.
+* If the two cards match, they stay open.
+* If they don't match, cards close.
+* Remember what was on each card and where it was.
+* Watch and remember during each move.
+* The game is over when all the cards have been matched.
+* The game displays a star rating (initial rating is 10 stars) that reflects the player's performance. After each 2 incorrect moves, player loses a star of rating.*/
+
 // Whole-script strict mode syntax
 "use strict";
 let timerValueInSeconds = 0;
@@ -5,24 +17,24 @@ let timerHolder;
 let rating;
 let clicks = 0;
 let moves = 0;
-let cards = [
-    'fa-diamond', 'fa-diamond',
-    'fa-paper-plane-o', 'fa-paper-plane-o',
-    'fa-anchor', 'fa-anchor',
-    'fa-bolt', 'fa-bolt',
-    'fa-cube', 'fa-cube',
-    'fa-leaf', 'fa-leaf',
-    'fa-bicycle', 'fa-bicycle',
-    'fa-bomb', 'fa-bomb',
+let cardVariationsToPlay = [
+    'fa-diamond',
+    'fa-paper-plane-o',
+    'fa-anchor',
+    'fa-bolt',
+    'fa-cube',
+    'fa-leaf',
+    'fa-bicycle',
+    'fa-bomb'
 ];
-let modal = document.getElementById("myModal");
-let closeModal = document.getElementsByClassName("close")[0];
+const modal = document.querySelector(".winner");
+const closeModal = document.querySelector(".close");
 let ratingLiteral = '<li><i class="fa fa-star"></i></li>';
-let starsRatingToDisplay = document.querySelector('.stars');
-let timerCounter = document.querySelector('.timerValue');
+const starsRatingToDisplay = document.querySelector('.stars');
+const timerCounter = document.querySelector('.timerValue');
 let openCards = [];
-let moveCounter = document.querySelector('.moves');
-let restartIcon = document.querySelector('.restart');
+const moveCounter = document.querySelector('.moves');
+const restartIcon = document.querySelector('.restart');
 let incorrectMovesCount = 0;
 
 restartIcon.addEventListener('click', function () {
@@ -30,7 +42,7 @@ restartIcon.addEventListener('click', function () {
     clearInterval(timerHolder);
 });
 
-function generateCard(card) {
+function generateOneCardHTML(card) {
     return `<li class="card" data-card="${card}"><i class="fa ${card}"></i></li>`;
 }
 
@@ -68,19 +80,19 @@ function shuffle(array) {// Shuffle function from http://stackoverflow.com/a/245
 }
 
 function createCards() {
-    let deck = document.querySelector('.deck');
+    const deck = document.querySelector('.deck');
     deck.innerHTML = "";
-    let cardHTML = shuffle(cards).map(function (card) {
-        return generateCard(card);
+    let cardHTML = shuffle(cardVariationsToPlay.concat(cardVariationsToPlay)).map(function (card) {
+        return generateOneCardHTML(card);
     });
     deck.innerHTML = cardHTML.join('');
 }
 
-function compareCards(cards) {
-    if (cards[0].dataset.card == cards[1].dataset.card) {//check if cards match
+function compareCards(cards) {//check if two cards match
+    if (cards[0].dataset.card == cards[1].dataset.card) {
         cards.forEach(function (card) {
             card.classList.add('match');
-        })
+        });
     } else {//if there are two mistakes in a row - reduce rating
         incorrectMovesCount++;
         if (incorrectMovesCount%2 == 0){
@@ -90,12 +102,12 @@ function compareCards(cards) {
     setTimeout(function () {//if cards don't match - close them
         cards.forEach(function (card) {
             card.classList.remove('open', 'show');
-        })
+        });
         openCards = [];
     }, 300);
 }
 
-function setRating(ratingToSet) {
+function setRating(ratingToSet) {//method to set up and display initial rating in stars
     rating = ratingToSet;
     starsRatingToDisplay.innerHTML = generateRatingHTML(rating);
 }
@@ -114,7 +126,7 @@ function startTimer() {
     timerHolder = setInterval(timer, 1000);
 }
 
-function initGame() {
+function initGame() {//main method, set up initial values and control clicks
     createCards();
     setRating(10);
     setMoves(0);
@@ -122,7 +134,7 @@ function initGame() {
     clicks = 0;
     incorrectMovesCount = 0;
     openCards = [];
-    let allCards = document.querySelectorAll('.card');
+    const allCards = document.querySelectorAll('.card');
     allCards.forEach(function (card) {
         card.addEventListener('click', function () {
             if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match') && (openCards.length < 2)) {
@@ -130,7 +142,7 @@ function initGame() {
                 openCard(card);
                 if (openCards.length == 2) {
                     increaseMove();
-                    compareCards(openCards)
+                    compareCards(openCards);
                 }
                 clicks++;
                 if (clicks == 1) {
@@ -138,7 +150,7 @@ function initGame() {
                 }
             }
             if (getNumberOfMatches() == 16) {
-                //stop game
+                //stop game, player won, show win popup
                 clearInterval(timerHolder);
                 showModal();
             }
@@ -159,25 +171,25 @@ function getNumberOfMatches() {
 
 closeModal.onclick = function () {// When the user clicks on <span> (x), close the modal
     modal.style.display = "none";
-}
+};
 
 window.onclick = function (event) {// When the user clicks anywhere outside of the modal, hide it
     if (event.target == modal) {
         modal.style.display = "none";
     }
-}
+};
 
-function showModal() {
+function showModal() {//method for display player won popup on the page
     let winText = `Congratulations! Your game took ${timerValueInSeconds} seconds and ${moves} moves with final rating of ${rating} stars.`;
-    let textInsideModal = document.querySelector('.win-message');
+    const textInsideModal = document.querySelector('.win-message');
     textInsideModal.innerText = winText;
     modal.style.display = "block";
 }
 
-let btn = document.getElementById("playAgainBtn");
+const playAgain = document.querySelector('.play-again-button');
 
-btn.onclick = function() {
+playAgain.onclick = function() {//hide popup and start new game
     modal.style.display = "none";
     initGame();
     clearInterval(timerHolder);
-}
+};
