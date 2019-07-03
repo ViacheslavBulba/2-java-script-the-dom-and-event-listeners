@@ -2,10 +2,10 @@
 
 ## Table of Contents
 
-* [Link to a hosted version of the game](#Link to a hosted version of the game)
+* [Link to a hosted version of the game](#Link)
 * [Rules](#Rules)
 * [Dependencies](#Dependencies)
-* [Instructions for loading the app locally](#Instructions for loading the app locally)
+* [Instructions for loading the app locally](#Instructions)
 * [Author](#Author)
 
 ## Link to a hosted version of the game
