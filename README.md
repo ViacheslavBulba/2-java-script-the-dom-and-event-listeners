@@ -52,7 +52,7 @@ The following external resources are used:
 
 1. Download as ZIP or Clone the repo using command line: git clone https://github.com/ViacheslavBulba/2-java-script-the-dom-and-event-listeners.git
 2. Go inside downloaded/cloned repository folder
-3. Run Run index.html
+3. Run index.html
 
 ## Author
 
