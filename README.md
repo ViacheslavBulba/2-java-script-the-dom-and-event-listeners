@@ -43,7 +43,7 @@ https://viacheslavbulba.github.io/2-java-script-the-dom-and-event-listeners/
 
 ## Dependencies
 
-You will need an internet connection to fetch the following resources used:
+The following external resources are used:
 
 * [Awesome Font 4.6.1](https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css)
 * [Coda Font](https://fonts.googleapis.com/css?family=Coda)
